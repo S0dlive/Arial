@@ -1,10 +1,21 @@
+using AuthorizationService.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddDbContext<AuthorizationDbContext>(options =>
+{
+    options.UseMySql("server=localhost;password=;user=root;database=arial.auth;"
+        ,ServerVersion.AutoDetect("server=localhost;password=;user=root;database=arial.auth;"));
+});
 builder.Services.AddControllersWithViews();
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.LoginPath = "/account/login";
+});
+
+
 var app = builder.Build();
 
 
