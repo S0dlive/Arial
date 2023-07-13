@@ -17,22 +17,25 @@ public class AccountController : Controller
     }
     
     [HttpGet]
-    public async Task<IActionResult> Login()
+    public async Task<IActionResult> Login(string returnUrl)
     {
+        Console.WriteLine(returnUrl);
+        ViewData["returnUrl"] = returnUrl;
         return View();
     }
     
     [HttpPost]
-    public async Task<IActionResult> Login(string email, string password)
+    public async Task<IActionResult> Login(string email, string password, string returnUrl)
     {
-        Console.WriteLine(email + password);
         if (string.IsNullOrEmpty(email) && string.IsNullOrEmpty(password))
         {
             Console.WriteLine("ok");
             return View();
         }
-        var user = await _authorizationDbContext.Users.FirstOrDefaultAsync(t => t.Email == email 
+
+        var user =  await _authorizationDbContext.Users.FirstOrDefaultAsync(t => t.Email == email 
             && t.Password == password);
+
         if (user != null)
         {
             var claims = new List<Claim>
@@ -42,21 +45,28 @@ public class AccountController : Controller
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        
+
             var authProperties = new AuthenticationProperties
             {
                 AllowRefresh = true,
                 IsPersistent = true,
                 ExpiresUtc = DateTime.UtcNow.AddDays(7)
             };
+            
+            
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties
             );
-            return View();
+            
+            if (returnUrl != null)
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+            
         }
-        Console.WriteLine("no ok");
         return View();
     }
 
