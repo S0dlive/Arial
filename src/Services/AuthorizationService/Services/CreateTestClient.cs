@@ -43,11 +43,11 @@ public class CreateTestClient : BackgroundService
                 }
             }, cancellationToken);
         }
-        if (await manager.FindByClientIdAsync("resource_server_1") is null)
+        if (await manager.FindByClientIdAsync("course_service") is null)
         {
             await manager.CreateAsync(new OpenIddictApplicationDescriptor
             {
-                ClientId = "resource_server_1",
+                ClientId = "course_service",
                 ClientSecret = "846B62D0-DEF9-4215-A99D-86E6B8DAB342",
                 Permissions =
                 {
@@ -58,15 +58,18 @@ public class CreateTestClient : BackgroundService
         
         var scopeManager = scope.ServiceProvider.GetRequiredService<IOpenIddictScopeManager>();
         
-        if (await scopeManager.FindByNameAsync("resource_server_1") is null)
+        if (await scopeManager.FindByNameAsync("course_service") is null)
         {
             await scopeManager.CreateAsync(new OpenIddictScopeDescriptor
             {
-                Name = "resource_server_1",
+                DisplayName = "course",
+                
+                Name = "course_service",
                 Resources =
                 {
-                    "resource_server_1"
+                    "course_service"
                 },
+                Description = "allow this client to : create, update, delete and like other course."
             });
         }
     }
