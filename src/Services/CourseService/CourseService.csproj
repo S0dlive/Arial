@@ -22,4 +22,9 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Handlers\" />
+      <Folder Include="Queries\" />
+    </ItemGroup>
+
 </Project>
