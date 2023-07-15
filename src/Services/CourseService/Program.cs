@@ -1,8 +1,15 @@
+using CourseService.Data;
+using Microsoft.EntityFrameworkCore;
 using OpenIddict.Validation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddDbContext<CourseDbContext>(options =>
+{
+    options.UseMySql("server=localhost;password=;user=root;database=arial.course;",
+        ServerVersion.AutoDetect("server=localhost;password=;user=root;database=arial.course;"));
+});
 
 builder.Services.AddOpenIddict().AddValidation(options =>
 {
