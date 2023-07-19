@@ -1,5 +1,6 @@
 using CourseService.Commands;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseService.Controllers;
@@ -14,18 +15,22 @@ public class CourseController : Controller
     {
         _mediator = mediator;
     }
+    [HttpPost("create")]
+    [Authorize()]
     public async Task<IActionResult> CreateCourseController(CreateACourseCommand createACourseCommand)
     {
         await _mediator.Send(createACourseCommand);
         return Ok();
     }
-
-    public async Task<IActionResult> UpdateCourseController(UpdateCourseCommand updateCourseCommand)
+    [HttpPost("{courseId}/update")]
+    [Authorize()]
+    public async Task<IActionResult> UpdateCourseController(string courseId, UpdateCourseCommand updateCourseCommand)
     {
         await _mediator.Send(updateCourseCommand);
         return Ok();
     }
-
+    [HttpPost("{courseId}/delete")]
+    [Authorize()]
     public async Task<IActionResult> DeleteCourseController(DeleteCourseCommand deleteCourseCommand)
     {
         await _mediator.Send(deleteCourseCommand);
