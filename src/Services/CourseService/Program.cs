@@ -10,7 +10,6 @@ builder.Services.AddDbContext<CourseDbContext>(options =>
     options.UseMySql("server=localhost;password=;user=root;database=arial.course;",
         ServerVersion.AutoDetect("server=localhost;password=;user=root;database=arial.course;"));
 });
-
 builder.Services.AddOpenIddict().AddValidation(options =>
 {
     options.AddAudiences("course_service");
