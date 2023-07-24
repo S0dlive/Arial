@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using CourseService.Data;
 using CourseService.Models;
 using MediatR;
@@ -43,7 +44,7 @@ public class CourseController : Controller
             }
             _courseDbContext.Courses.Add(course);
             await _courseDbContext.SaveChangesAsync();
-            return Ok();
+            return Ok(course);
         }
         return BadRequest(new Error("400","the sub is null. . ."));
     }
@@ -57,7 +58,7 @@ public class CourseController : Controller
             return BadRequest(new Error("400", "you don't can have more of 100 course."));
         }
 
-        throw new NotImplementedException();
+        return Ok(_courseDbContext.Courses.Take(limit).ToList());
     }
 
     [HttpPatch("{courseId}")]
@@ -88,10 +89,52 @@ public class CourseController : Controller
 
         _courseDbContext.Courses.Update(course);
         await _courseDbContext.SaveChangesAsync();
+        return Ok(course);
+    }
+
+    [HttpPost("{courseId}")]
+    public async Task<IActionResult> DeleteACourseController(string courseId)
+    {
+        var userId = User.Claims.FirstOrDefault(t => t.Type == "sub").Value;
+        var course = _courseDbContext.Courses.FirstOrDefault(t => t.Id == courseId);
+        if (course == null)
+        {
+            return NotFound(new Error("404", "this course don't exist"));
+        }
+
+        if (userId != course.OwnerId)
+        {
+            return Unauthorized(new Error("401", "you don't have the authorization for delete this course."));
+        }
+
+        var deletor = new CourseDeletor()
+        {
+            Id = Guid.NewGuid().ToString(),
+            CourseId = courseId,
+            ExpireIn = DateTime.Now.AddMinutes(10)
+        };
+
+        _courseDbContext.CourseDeletors.Add(deletor);
+        await _courseDbContext.SaveChangesAsync();
+
+        return Ok(deletor);
+    }
+
+    [HttpDelete("{deletorId}")]
+    [AllowAnonymous]
+    public async Task<IActionResult> DeletorController(string deletorId)
+    {
+        var deletor = _courseDbContext.CourseDeletors.FirstOrDefault(t => t.Id == deletorId);
+        if (deletor.ExpireIn < DateTime.Now)
+        {
+            return Unauthorized(new Error("404", "This deletor is not good."));
+        }
+        
+        _courseDbContext.Courses.Remove(_courseDbContext.Courses.FirstOrDefault(t => t.Id == deletor.CourseId));
+        _courseDbContext.CourseDeletors.Remove(deletor);
+        await _courseDbContext.SaveChangesAsync();
         return Ok();
     }
-    
-    
 }
 
 public record UpdateCourseRequest(string NewCourseName, double NewPrice, string NewDescription);

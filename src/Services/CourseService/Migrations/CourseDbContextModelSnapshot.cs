@@ -39,6 +39,9 @@ namespace CourseService.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
                     b.Property<string>("OwnerId")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -97,6 +100,23 @@ namespace CourseService.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("CourseService.Models.CourseDeletor", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("ExpireIn")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CourseDeletors");
                 });
 
             modelBuilder.Entity("CourseService.Models.LikeComment", b =>

@@ -10,7 +10,7 @@ public class CourseDbContext : DbContext
     {
         
     }
-    
+    public DbSet<CourseDeletor> CourseDeletors { get; set; }
     public DbSet<Course> Courses { get; set; }
     public DbSet<Chapter> Chapters { get; set; }
     public DbSet<Comment> Comments { get; set; }
