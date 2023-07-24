@@ -62,9 +62,9 @@ public class AuthController : Controller
                         Request.HasFormContentType ? Request.Form.ToList() : Request.Query.ToList())
                 });
         }
-        
         var claims = new List<Claim>
         {
+            new Claim(OpenIddictConstants.Claims.Subject, result.Principal.Claims.FirstOrDefault(t => t.Type == "sub").Value),
             new Claim(OpenIddictConstants.Claims.Subject, result.Principal.Identity.Name),
             new Claim("some claim", "some value").SetDestinations(OpenIddictConstants.Destinations.AccessToken)
         };
