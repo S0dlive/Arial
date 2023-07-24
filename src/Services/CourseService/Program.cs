@@ -1,4 +1,6 @@
+using System.Security.Claims;
 using CourseService.Data;
+using IdentityModel.AspNetCore.OAuth2Introspection;
 using Microsoft.EntityFrameworkCore;
 using OpenIddict.Validation.AspNetCore;
 
@@ -20,6 +22,7 @@ builder.Services.AddOpenIddict().AddValidation(options =>
     options.UseSystemNetHttp();
     options.UseAspNetCore();
 });
+
 
 builder.Services.AddAuthentication(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
 builder.Services.AddEndpointsApiExplorer();
