@@ -92,7 +92,8 @@ public class CourseController : Controller
         return Ok(course);
     }
 
-    [HttpPost("{courseId}")]
+    [HttpPost("{courseId}/delete")]
+    [Authorize]
     public async Task<IActionResult> DeleteACourseController(string courseId)
     {
         var userId = User.Claims.FirstOrDefault(t => t.Type == "sub").Value;
@@ -125,6 +126,12 @@ public class CourseController : Controller
     public async Task<IActionResult> DeletorController(string deletorId)
     {
         var deletor = _courseDbContext.CourseDeletors.FirstOrDefault(t => t.Id == deletorId);
+        
+        if (deletor == null)
+        {
+            return NotFound(new Error("404", "deletor don't exist."));
+        }
+        
         if (deletor.ExpireIn < DateTime.Now)
         {
             return Unauthorized(new Error("404", "This deletor is not good."));
@@ -135,6 +142,7 @@ public class CourseController : Controller
         await _courseDbContext.SaveChangesAsync();
         return Ok();
     }
+    
 }
 
 public record UpdateCourseRequest(string NewCourseName, double NewPrice, string NewDescription);
