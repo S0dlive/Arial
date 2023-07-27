@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSpa", "src\WebSpa\WebSpa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseService", "src\Services\CourseService\CourseService.csproj", "{C63F86BB-1B45-4C7B-8FCE-44F978EA1D3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailService", "src\Services\MailService\MailService.csproj", "{2525CBFD-6ADC-493B-BC91-7958B496AF3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,7 @@ Global
 		{88922D4F-EDF6-411A-B9FA-359611925336} = {56C3FD40-50EB-427C-8AD2-164AC85BB167}
 		{B7185D02-0966-426E-8E3F-857860CEF13D} = {D5F820E6-DCB4-4ECD-BEF9-2F70EAAA4D7A}
 		{C63F86BB-1B45-4C7B-8FCE-44F978EA1D3A} = {56C3FD40-50EB-427C-8AD2-164AC85BB167}
+		{2525CBFD-6ADC-493B-BC91-7958B496AF3D} = {56C3FD40-50EB-427C-8AD2-164AC85BB167}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{88922D4F-EDF6-411A-B9FA-359611925336}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -37,5 +40,9 @@ Global
 		{C63F86BB-1B45-4C7B-8FCE-44F978EA1D3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C63F86BB-1B45-4C7B-8FCE-44F978EA1D3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C63F86BB-1B45-4C7B-8FCE-44F978EA1D3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2525CBFD-6ADC-493B-BC91-7958B496AF3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2525CBFD-6ADC-493B-BC91-7958B496AF3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2525CBFD-6ADC-493B-BC91-7958B496AF3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2525CBFD-6ADC-493B-BC91-7958B496AF3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
