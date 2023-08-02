@@ -32,6 +32,13 @@ namespace CourseService.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsFree")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime>("LastUpdate")
                         .HasColumnType("datetime(6)");
 
